@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         movies: [
             "Логан",
             "Лига справедливости",
-            "Зорро",
+            "Ла-Ла Лэнд",
             "Одержимость",
             "Скотт Пилигрим против..."
         ]
@@ -34,13 +34,21 @@ document.addEventListener('DOMContentLoaded', () =>{
     addForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const newFilm = addInput.value;
+        let newFilm = addInput.value;
         const favorite = checkbox.checked;
 
-        movieDB.movies.push(newFilm);
-        sortArr(movieDB.movies);
+        if (newFilm) {
 
-        createMovieList(movieDB.movies, movieList);
+            if (newFilm.length > 21) {
+                newFilm = `${newFilm.substring(0, 22)}...`;
+            }
+            movieDB.movies.push(newFilm);
+            sortArr(movieDB.movies);
+    
+            createMovieList(movieDB.movies, movieList);
+        }
+
+        
 
         event.target.reset();
 
@@ -76,6 +84,13 @@ document.addEventListener('DOMContentLoaded', () =>{
                 </li>
             `;
         });
+
+        document.querySelectorAll('.delete').forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.remove();
+                movieDB.movies.splice(i, 1);
+            })
+        });
     }
 
     deleteAdv(adv);
@@ -83,6 +98,5 @@ document.addEventListener('DOMContentLoaded', () =>{
     sortArr(movieDB.movies);
     createMovieList(movieDB.movies, movieList);
 }); 
-
 
 
